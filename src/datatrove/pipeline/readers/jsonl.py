@@ -1,5 +1,4 @@
 from typing import Callable, Literal
-
 from datatrove.io import DataFileLike, DataFolderLike
 from datatrove.pipeline.readers.base import BaseDiskReader
 from datatrove.utils.logging import logger
@@ -76,6 +75,7 @@ class JsonlReader(BaseDiskReader):
                     with self.track_time():
                         try:
                             document = self.get_document_from_dict(orjson.loads(line), filepath, li)
+                            document.text=document.text.replace('<[!newline]>\n','\n')
                             if not document:
                                 continue
                         except (EOFError, JSONDecodeError) as e:
