@@ -70,7 +70,10 @@ class GopherQualityFilter(BaseFilter):
 
         """
         text = doc.text
-        words = self.tokenizer.word_tokenize(text)
+        try:
+            words = self.tokenizer.word_tokenize(text)
+        except:
+            return True
         n_words = len(words)
 
         non_symbol_words = [w for w in words if any(ch not in PUNCTUATION_SET for ch in w)]
