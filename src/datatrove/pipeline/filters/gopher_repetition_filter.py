@@ -123,9 +123,10 @@ class GopherRepetitionFilter(BaseFilter):
             return False, "dup_line_frac"
         if self.dup_line_char_frac and char_duplicates / len(text) > self.dup_line_char_frac:
             return False, "dup_line_char_frac"
-
-        words = self.tokenizer.word_tokenize(text)
-
+        try:
+            words = self.tokenizer.word_tokenize(text)
+        except:
+            return True
         for n, n_frac in self.top_n_grams:
             n_grams = get_n_grams(words, n)
             if not n_grams:
